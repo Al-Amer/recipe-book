@@ -31,7 +31,7 @@ const About = () => {
 
 export default About;
 
-//// Edu idea for node/JS
+// // Edu idea for node/JS
 
 // import fetch from "node-fetch";
 // import fs from "fs";
