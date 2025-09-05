@@ -1,9 +1,9 @@
 // import for DB Connection
 import { neon } from "@neondatabase/serverless";
-
-const sql = neon(
-	"postgresql://neondb_owner:npg_4ExAZHwWjD8y@ep-floral-sky-ag9a5k31-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-);
+const url =
+	"postgresql://neondb_owner:npg_4ExAZHwWjD8y@ep-floral-sky-ag9a5k31-pooler.c-2.eu-central-1.aws.neon.tech/recipe-book";
+const sql = neon(url);
+// put sync FN into async FN
 async function addArea(name: string) {
 	const rows = await sql`
     INSERT INTO areas (name)
