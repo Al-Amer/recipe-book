@@ -1,41 +1,5 @@
-// import for DB Connection
-import { neon } from "@neondatabase/serverless";
-const url =
-	"postgresql://neondb_owner:npg_4ExAZHwWjD8y@ep-floral-sky-ag9a5k31-pooler.c-2.eu-central-1.aws.neon.tech/recipe-book";
-const sql = neon(url);
-// put sync FN into async FN
-async function addArea(name: string) {
-	const rows = await sql`
-    INSERT INTO areas (name)
-    VALUES (${name})
-    ON CONFLICT (name) DO NOTHING
-    RETURNING id, name
-  `;
-	if (rows.length === 0) {
-		console.log(`Area "${name}" already exists.`);
-	} else {
-		console.log(`Inserted new area:`, rows[0]);
-	}
-}
-// Example usage
-addArea("Mexican");
-// console.log(rows); // actual data from DB
-
-// FN to fetch data from API and store in PGSQL DB
-
-const fetchData = async (url: string, startId: number, count: number) => {
-	// Loop over given numbers to fetch data from API
-	for (let i = startId; i < startId + count; i++) {
-		// "calculate data and save in DB"
-
-		// dynamically generate URL to fetch single meal from
-		const res = await fetch(url + `${i}`);
-		if (!res.ok) throw new Error("Falied to fetch data");
-		const data = await res.json();
-		// console.log(data);
-		// return data;
-	}
-};
+// import of self wriiten Fn to fetch Data from API
+import fetchData from "@/lib/fetchdata";
 
 const About = () => {
 	// URl to fetch from

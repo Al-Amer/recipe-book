@@ -1,28 +1,18 @@
-// fetch meals
-// fetch ingredients
-// to save in DB
+// FN to fetch data from API and store in PGSQL DB
+const fetchData = async (url: string, startId: number, count: number) => {
+	// Loop over given numbers to fetch data from API
+	for (let i = startId; i < startId + count; i++) {
+		// "calculate data and save in DB"
 
-const fetchData = async () => {
-	const res = await fetch(
-		"https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}"
-	);
-	const data = await res.json();
-	console.log(data);
+		// dynamically generate URL to fetch single meal from
+		const res = await fetch(url + `${i}`);
+		if (!res.ok) throw new Error("Falied to fetch data");
+		const data = await res.json();
+		// console.log(data);
+
+		// Call FN to save Data in PGSQL DB
+
+		// return data;
+	}
 };
-
-// import fetch from "node-fetch";
-// async function fetchMeals(startId, count) {
-//   const meals = [];
-//   for (let id = startId; id < startId + count; id++) {
-//     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-//     const data = await res.json();
-//     if (data.meals) {
-//       meals.push(data.meals[0]);
-//     }
-//   }
-//   return meals;
-// }
-// fetchMeals(52772, 100).then(meals => {
-//   console.log(`Fetched ${meals.length} meals`);
-//   console.log(meals.map(m => m.strMeal));
-// });
+export default fetchData;
