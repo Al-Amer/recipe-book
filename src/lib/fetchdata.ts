@@ -1,3 +1,5 @@
+import storeData from "./storeData";
+
 // FN to fetch data from API and store in PGSQL DB
 const fetchData = async (url: string, startId: number, count: number) => {
 	// Loop over given numbers to fetch data from API
@@ -8,11 +10,12 @@ const fetchData = async (url: string, startId: number, count: number) => {
 		const res = await fetch(url + `${i}`);
 		if (!res.ok) throw new Error("Falied to fetch data");
 		const data = await res.json();
-		// console.log(data);
+		console.log(data);
 
 		// Call FN to save Data in PGSQL DB
 
-		// return data;
+		storeData("areas", "test");
+		return data;
 	}
 };
 export default fetchData;

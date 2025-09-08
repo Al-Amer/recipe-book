@@ -8,9 +8,10 @@ const About = () => {
 	const counter = 10;
 	// Call fetch FN with URL Variable
 	const data = fetchData(url, startId, counter);
+	console.log(data);
 
 	// // TODO
-	// Call storeData and pass in fetched data
+	// Call storeData FN and pass in fetched data
 
 	return (
 		<>
