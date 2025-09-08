@@ -1,15 +1,17 @@
-// import for DB Connection
-import { neon } from "@neondatabase/serverless";
+// // TODO
+// adapt FN anatomy to accept needed values
+// change SQL query to
+// - save Data
+// - in correct table(s)
 
-const url =
-	"postgresql://neondb_owner:npg_4ExAZHwWjD8y@ep-floral-sky-ag9a5k31-pooler.c-2.eu-central-1.aws.neon.tech/recipe-book";
-const sql = neon(url);
+// import own DB Connetion
+import dbCon from "./dbCon";
+
+// const url =
+// 	"postgresql://neondb_owner:npg_4ExAZHwWjD8y@ep-floral-sky-ag9a5k31-pooler.c-2.eu-central-1.aws.neon.tech/recipe-book";
+const sql = dbCon();
+
 // put sync FN into async FN
-
-// passe FN an um
-// um gefetchte Daten richtig in die DB zu sichern
-
-// SaveInDB FN (name, zutaten, ...) { sql" füge Daten in die richtige Tabelle"}
 async function storeData(name: string) {
 	const rows = await sql`
     INSERT INTO areas (name)

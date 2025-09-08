@@ -9,6 +9,9 @@ const About = () => {
 	// Call fetch FN with URL Variable
 	const data = fetchData(url, startId, counter);
 
+	// // TODO
+	// Call storeData and pass in fetched data
+
 	return (
 		<>
 			<h1>About Us</h1>
