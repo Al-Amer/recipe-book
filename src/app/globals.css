@@ -1,26 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Core brand colors so far, need to be further discussed*/
+  --color-bg: #0f172a;        /* Slate-900 */
+  --color-bg-alt: #1e293b;    /* Slate-800 */
+  --color-text: #f8fafc;      /* Neutral very light */
+  --color-text-muted: #cbd5e1; /* Slate-300 */
+  --color-primary: #6366f1;   /* Indigo-500 */
+  --color-primary-hover: #4f46e5; /* Indigo-600 */
+  --color-accent: #818cf8;    /* Indigo-400 */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Layout + spacing */
+  --max-width: 72rem; /* Matches max-w-6xl */
+  --border-radius: 0.5rem;
+  --transition: 200ms ease-in-out;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+
+a:hover {
+  color: var(--color-accent);
+}
+
+
+input[type="text"]::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  transition: background-color var(--transition);
+  border-radius: var(--border-radius);
 }
