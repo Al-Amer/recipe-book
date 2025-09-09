@@ -1,13 +1,6 @@
-import fetchData from "@/lib/fetchdata";
 
 export default function Landing() {
-    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=`;
-	const startId = 52771;
-	const counter = 30;
-	// Call fetch FN with URL Variable
-	const data =  fetchData(url, startId, counter);
-    console.log("landing");
-    console.log(data);
+
   return (
     <div>
         <div>
