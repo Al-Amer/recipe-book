@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const { data: session, status } = useSession(); // get user session
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -61,6 +63,36 @@ export default function Header() {
                 Search
               </button>
             </form>
+          </li>
+
+          {/* Conditional Login/Register or Logout */}
+          <li className="flex gap-2">
+            {status === "loading" ? null : session ? (
+              <>
+                <span className="px-3 py-1 text-sm">{session.user?.name || session.user?.email}</span>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm transition-colors"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </li>
         </ul>
       </nav>
