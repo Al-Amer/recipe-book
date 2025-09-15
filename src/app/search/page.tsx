@@ -14,7 +14,11 @@ export default async function SearchResultsPage({ searchParams }: PageProps) {
 	// const products = await fetchProducts(query);
 
 	const sql = dbCon();
-
+	const results = await sql`
+    SELECT * FROM meals AS m
+    WHERE m.name LIKE ${"%" + query + "%"}
+    `;
+	console.log(results);
 	return (
 		<main>
 			<h1>Search results</h1>
@@ -30,7 +34,12 @@ export default async function SearchResultsPage({ searchParams }: PageProps) {
 
 			{/* <YourProductTable products={products} /> */}
 			<div className="mt-6">
-				<p>placeholder for searched products</p>
+				{results.map((result) => (
+					<div key={result.id}>
+						<h3>{result.name}</h3>
+						<img src={result.thump} alt={result.name} />
+					</div>
+				))}
 			</div>
 		</main>
 	);
