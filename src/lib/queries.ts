@@ -45,15 +45,3 @@ export async function getMealById(id: number) {
   `;
 	return rows[0] ?? null;
 }
-//getCategories to call Categories table from db neon 
-// export type Category = { id: number; name: string };
-// export async function getCategories(): Promise<Category[]> {
-//   const db = dbCon();
-//   const rows = await db`
-//     SELECT id, name
-//     FROM categories
-//     ORDER BY name
-//   `;
-//   return rows as Category[];
-// }
-
