@@ -34,6 +34,7 @@ export default function Header() {
 				</h1>
 
 				<ul className="flex gap-6 text-sm font-medium items-center">
+					{/* Static nav links */}
 					{navLinks.map((link) => (
 						<li key={link.href}>
 							<Link
@@ -48,6 +49,22 @@ export default function Header() {
 							</Link>
 						</li>
 					))}
+
+					{/* Show Favorites only if logged in */}
+					{status === "authenticated" && (
+						<li>
+							<Link
+								href="/favorites"
+								className={`transition-colors duration-200 ${
+									pathname === "/favorites"
+										? "text-indigo-400"
+										: "hover:text-indigo-300"
+								}`}
+							>
+								Favorites
+							</Link>
+						</li>
+					)}
 
 					{/* Search bar */}
 					<Searchbar
