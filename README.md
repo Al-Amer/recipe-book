@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# recipe-book exercise during WBS Coding School
 
-## Getting Started
+## Project Overview
 
-First, run the development server:
+A Webpage wich:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-   contains the content from mealDB https://www.themealdb.com/
+-   stored in a postgreSQL database hosted on neon
+-   displays that data on a webpage
+-   allows simple searching for specific name in database
+-   allow simple user registration and authentication
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Roadmap
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   implementing all FR's from WBS
+-   further enhancements
+    -   search page?
+    -   general styling acoss Webpage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Requirements
 
-## Learn More
+| ID     | Functional Requirement     | Description                                                                                                   | Status         |
+| ------ | -------------------------- | ------------------------------------------------------------------------------------------------------------- | -------------- |
+| FR001  | Public GitHub Repository   | Host code in a public repo and merge into main only via pull requests.                                        | In Progress    |
+| FR002  | Commit Workflow            | Make small, frequent commits and open PRs for each feature or fix.                                            | In Progress    |
+| FR003  | Framework Scaffolding      | Scaffold your project with React Router or NextJS using the TypeScript template.                              | Done           |
+| FR004  | Routing Configuration      | Set up client-side routes with React Router or NextJS pages and server functions.                             | Done           |
+| FR005  | TailwindCSS Styling        | Apply consistent styling throughout using TailwindCSS.                                                        | In Progress    |
+| FR006  | Neon Integration           | Set up a Neon database with recipe data and configure server-side functions to query it.                      | Done           |
+| FR007  | Data Generation            | Use Neon to seed your database with sample recipes on project initialization.                                 | Done           |
+| FR008  | Search Functionality       | Implement a search interface that queries your Neon database on the server and displays results.              | Done           |
+| FR009  | Recipe Detail Page         | Create a dedicated page to fetch and display detailed data for a selected recipe from Neon.                   | In Progress    |
+| FR010  | Cookbook CRUD              | Enable visitors to add, list, update notes, and remove recipes in their cookbook, persisting changes to Neon. | In Progress    |
+| FR011  | Loading and Error Handling | Provide user feedback: loading indicators and graceful error messages for database operations.                | In Progress    |
+| FR012  | Code Organization          | Maintain a clear folder structure (components, utils, types).                                                 | In Progress    |
+| FR013  | Documentation & Readme     | Include a README with setup instructions, project overview, TS feature roadmap, and Neon usage details.       | In Progress    |
+| FR014a | React Router Deployment    | Deploy the React Router app (Netlify or Vercel) and verify production routes/actions.                         | does not apply |
+| FR014b | NextJS Deployment          | Deploy the NextJS app to Vercel and configure loading.js for data fetching states.                            | In Progress    |
 
-To learn more about Next.js, take a look at the following resources:
+## Setup and Installation Instructions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. clone from Github repo with SSH
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    git clone git@github.com:Al-Amer/recipe-book.git
 
-## Deploy on Vercel
+2. install dependencies with (still to test, accordigliy to Gemini this should work without specifying all packages independently)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    npm i
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    // alternatively use single statements
+    npm install react-icons
+    npm install next-auth
+    npm install bcryptjs
+    npm install @neondatabase/serverless
+    npm install use-debounce 
+
+4. run with
+
+    npm run dev
+
+5. create .env file with
+
+    content to be determined because of credentials for DB Access
