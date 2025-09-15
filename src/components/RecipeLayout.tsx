@@ -9,17 +9,11 @@ type PropSchema = {
 };
 
 export const RecipeLayout = ({ name, meals }: PropSchema) => {
-	// console.log("log from RecipeLayout:", meals);
 	return (
-		// return a Layout for reusability in Landing and Search Page
-		// Pass in name as Headline
+		<section className="border-2 rounded-2xl p-4">
+			<h2 className="text-center">{name}</h2>
 
-		// ToDO
-		// Add a Layout and display recipes with ID from Array
-		<section className="border-2 rounded-2xl flex flex-col items-center p-4">
-			<h2>{name}</h2>
-			<div>
-				{/* Use RecipeComponent to display a single recipe */}
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-screen-xl mx-auto">
 				{meals.map((meal) => (
 					<RecipeOverview key={meal} mealId={meal} />
 				))}

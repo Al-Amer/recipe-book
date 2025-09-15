@@ -13,7 +13,7 @@ export default async function SearchResultsPage({ searchParams }: PageProps) {
 	const sql = dbCon();
 	// SQL Query with template for safe access
 	const results = await sql`
-    SELECT * FROM meals AS m
+    SELECT m.id FROM meals AS m
     WHERE m.name LIKE ${"%" + query + "%"}
     `;
 	console.log(results);
@@ -31,13 +31,13 @@ export default async function SearchResultsPage({ searchParams }: PageProps) {
 
 			{/* Display results from DB Query */}
 			<div className="mt-6">
-				{results.map((result) => (
+				{/* {results.map((result) => (
 					<div key={result.id}>
 						<h3>{result.name}</h3>
 
 						<img src={result.thumb} alt={result.name} />
 					</div>
-				))}
+				))} */}
 			</div>
 		</main>
 	);

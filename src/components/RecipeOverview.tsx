@@ -46,7 +46,7 @@ export const RecipeOverview = async ({ mealId }: OverviewProps) => {
 		);
 	}
 
-	// Mobie First Design/Development like suggested by Taiwind, add Design for Desktop later if functionality is done
+	// Mobie First Design/Development like suggested by Taiwind, add Design for Desktop later if functionality is
 	return (
 		<div className="border-2 m-2 p-4 rounded-2xl ">
 			<h3 className="p-4 text-center">{meal_name}</h3>
