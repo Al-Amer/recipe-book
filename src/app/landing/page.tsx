@@ -1,9 +1,18 @@
-
+import Image,{ StaticImageData } from "next/image";
+import IconAmer from "../../../Icon/icon_amer.png";
 export default function Landing() {
-
+    // from line 4 at line 12 , it is only test , able to delete 
+    type ImageType = {
+        id:number;
+        Icon:StaticImageData;
+    }
+    const arr :ImageType[]=[];
+    for (let i :number=0 ; i < 20; i ++){
+        arr.push({id:i, Icon:IconAmer} as ImageType);
+    }
   return (
-    <div>
-        <div>
+    <div className="justify-center ">
+        <div className="pb-5 mb-5 mt-5">
             <form className="max-w-md mx-auto">   
                 <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div className="relative">
@@ -17,11 +26,17 @@ export default function Landing() {
                 </div>
             </form>
         </div>
-        <div>
-
+        <div className="justify-center border-2 border-solid border-indigo-500 m-5">
+        <div className="grid grid-cols-3 md:grid-cols-5 gap-6  m-5 border-2 border-solid border-white-500">
+            {arr.map((item) => (
+                <Image key={item.id} src={item.Icon} alt={`Icon ${item.id}`} className="h-auto max-w-full rounded-lg "/>
+            )) }
+        </div>
         </div>
     </div>
   )
 }
 
 // noch bearbeitung 
+//<Image src={developer.imge} alt={developer.name} className='rounded-full h-40 w-40 object-contain'  /> 
+// <div className="grid grid-cols-3 md:grid-cols-5 gap-4  m-5 border-2 border-solid border-white-500">

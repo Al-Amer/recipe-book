@@ -15,10 +15,10 @@ export default function About() {
   	{id:2,imge:icaonAmer,name:"Amer",link:"https://github.com/Al-Amer",profie:"Software Developer",aboutText:"With a strong foundation in the social sector as a care worker and office administrator, I bring empathy, organization, and a people-first mindset into the world of technology. Now transitioning into tech, I’m combining my experience in support and coordination with a passion for building meaningful digital solutions."}
 	];
   	return (
-		<div className="flex items-start border-2 border-solid border-indigo-200 bg-sky-200 m-8 p-8 dark:bg-sky-800 dark:text-white">
+		<div className="flex items-start justify-center border-2 border-solid border-indigo-200 rounded-xl bg-sky-200 m-8 p-8 dark:bg-sky-800 dark:text-white">
 			{developers.map((developer)=>{
 				return (
-				<div className="flex flex-col justify-center text-center border-2 border-solid border-indigo-500 m-5 p-5 w-100 bg-blue-200 rounded-10%" key={developer.id}>
+				<div className="flex flex-col justify-center text-center border-2 border-solid border-indigo-500 rounded-xl m-4 p-4 w-100 bg-blue-200 rounded-10%" key={developer.id}>
 					<div className='flex justify-center'>
 						<Image src={developer.imge} alt={developer.name} className='rounded-full h-40 w-40 object-contain'  />
 					</div>
@@ -46,9 +46,9 @@ export default function About() {
 				</div>
 				)
 			})}
-  
 		</div>
 	);
 
 }
 
+// rounded-xl 
