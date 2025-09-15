@@ -28,7 +28,7 @@
 2. install dependencies with (still to test, accordigliy to Gemini this shoul work without specifying all packages independently)
    npm i
 
-    // Alternativ use single statements
+    // alternatively use single statements
     npm install react-icons
     npm install next-auth
     npm install bcryptjs
