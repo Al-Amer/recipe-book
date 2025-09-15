@@ -9,11 +9,9 @@ interface PageProps {
 
 export default async function SearchResultsPage({ searchParams }: PageProps) {
 	const query = searchParams?.query || "";
-	// console.log("query:", query);
-	// Hier würdest du deine Daten serverseitig basierend auf dem 'query' abrufen
-	// const products = await fetchProducts(query);
 
 	const sql = dbCon();
+	// SQL Query with template for safe access
 	const results = await sql`
     SELECT * FROM meals AS m
     WHERE m.name LIKE ${"%" + query + "%"}
@@ -26,18 +24,18 @@ export default async function SearchResultsPage({ searchParams }: PageProps) {
 				search term: <strong>{query}</strong>
 			</p>
 
-			{/* Optional: Hier kannst du die Suchleiste erneut anzeigen, falls der Nutzer die Suche verfeinern möchte */}
 			<Searchbar
 				placeholder="Ergebnisse filtern..."
 				targetPath="/search"
 			/>
 
-			{/* <YourProductTable products={products} /> */}
+			{/* Display results from DB Query */}
 			<div className="mt-6">
 				{results.map((result) => (
 					<div key={result.id}>
 						<h3>{result.name}</h3>
-						<img src={result.thump} alt={result.name} />
+
+						<img src={result.thumb} alt={result.name} />
 					</div>
 				))}
 			</div>
