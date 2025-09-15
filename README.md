@@ -52,11 +52,12 @@ A Webpage wich:
     npm install next-auth
     npm install bcryptjs
     npm install @neondatabase/serverless
+    npm install use-debounce 
 
-3. run with
+4. run with
 
     npm run dev
 
-4. create .env file with
+5. create .env file with
 
     content to be determined because of credentials for DB Access
