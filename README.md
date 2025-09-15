@@ -1,5 +1,22 @@
 # recipe-book exercise during WBS Coding School
 
+## Project Overview
+
+A Webpage wich:
+
+-   contains the content from mealDB https://www.themealdb.com/
+-   stored in a postgreSQL database hosted on neon
+-   displays that data on a webpage
+-   allows simple searching for specific name in database
+-   allow simple user registration and authentication
+
+## Roadmap
+
+-   implementing all FR's from WBS
+-   further enhancements
+    -   search page?
+    -   general styling acoss Webpage
+
 ## Project Requirements
 
 | ID     | Functional Requirement     | Description                                                                                                   | Status         |
@@ -23,10 +40,12 @@
 ## Setup and Installation Instructions
 
 1. clone from Github repo with SSH
-   git clone git@github.com:Al-Amer/recipe-book.git
 
-2. install dependencies with (still to test, accordigliy to Gemini this shoul work without specifying all packages independently)
-   npm i
+    git clone git@github.com:Al-Amer/recipe-book.git
+
+2. install dependencies with (still to test, accordigliy to Gemini this should work without specifying all packages independently)
+
+    npm i
 
     // alternatively use single statements
     npm install react-icons
@@ -35,4 +54,9 @@
     npm install @neondatabase/serverless
 
 3. run with
-   npm run dev
+
+    npm run dev
+
+4. create .env file with
+
+    content to be determined because of credentials for DB Access
