@@ -34,7 +34,6 @@ export const RecipeOverview = async ({ mealId }: OverviewProps) => {
 		const meal = result[0];
 		({ meal_name, thumb, areas_name, categories_name } = meal);
 	} catch (error) {
-		// Dieser Block fängt den "Cannot destructure... is undefined" Fehler ab
 		console.error("An error occured while working with the data:", error);
 		return (
 			<div className="border-2 m-2 p-4 rounded-2xl">
@@ -47,12 +46,13 @@ export const RecipeOverview = async ({ mealId }: OverviewProps) => {
 		);
 	}
 
+	// Mobie First Design/Development like suggested by Taiwind, add Design for Desktop later if functionality is done
 	return (
-		<div className="border-2 m-2 p-4 rounded-2xl">
+		<div className="border-2 m-2 p-4 rounded-2xl ">
 			<h3 className="p-4 text-center">{meal_name}</h3>
 
 			<div className="flex flex-col items-center">
-				<div className="border-red-500">
+				<div className="flex flex-col items-center">
 					<img src={thumb} alt={meal_name} className="size-[50%]" />
 					<figcaption>{meal_name}</figcaption>
 				</div>
