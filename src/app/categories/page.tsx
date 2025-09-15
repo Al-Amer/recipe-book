@@ -21,7 +21,7 @@ export default function Categories() {
     fetch("/api/categories")
       .then((res) => res.json())
       .then((data) => setCategories(data));
-    fetch("api/meals").then((res)=> res.json()).then((data) => setProducts(data));
+    // fetch("api/meals").then((res)=> res.json()).then((data) => setProducts(data));
   }, []);
   return (
     <div className="max-w-4xl mx-auto p-6">
