@@ -48,11 +48,10 @@ export const RecipeOverview = async ({ mealId }: OverviewProps) => {
 
 	// Mobie First Design/Development like suggested by Taiwind, add Design for Desktop later if functionality is
 	return (
-		<Link href={`/categories/${mealId}`}>
-			<div className="border-2 m-2 p-4 rounded-2xl ">
-				<h3 className="p-4 text-center">{meal_name}</h3>
-
-				<div className="flex flex-col items-center">
+		<div className="border-2 m-2 p-4 rounded-2xl ">
+			<div className="flex flex-col items-center">
+				<Link href={`/categories/${mealId}`}>
+					<h3 className="p-4 text-center">{meal_name}</h3>
 					<div className="flex flex-col items-center">
 						<img
 							src={thumb}
@@ -61,14 +60,15 @@ export const RecipeOverview = async ({ mealId }: OverviewProps) => {
 						/>
 						<figcaption>{meal_name}</figcaption>
 					</div>
-					<div className="flex flex-col items-center">
-						<Link href={"/categories"}>
-							Category: {categories_name}
-						</Link>
-						<Link href={"/search"}>Area: {areas_name}</Link>
-					</div>
+				</Link>
+
+				<div className="flex flex-col items-center">
+					<Link href={"/categories"}>
+						Category: {categories_name}
+					</Link>
+					<Link href={"/search"}>Area: {areas_name}</Link>
 				</div>
 			</div>
-		</Link>
+		</div>
 	);
 };
