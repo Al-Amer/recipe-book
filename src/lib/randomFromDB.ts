@@ -33,7 +33,7 @@ export function getRandomMeals(amount: number) {
 		// dapt type definition and hoist them into types file because its needed at atleast three points
 		// change Type to an Array with nested Objects
 		// array = [{id: 1}, {id:2}]
-		const randomID = "";
+
 		randomMeals.push(
 			getRandomNumberInRange(minDbEntry[0].min, maxDbEntry[0].max)
 		);
