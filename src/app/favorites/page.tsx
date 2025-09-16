@@ -8,6 +8,7 @@ type Meal = {
   id: number;
   name: string;
   thumb: string;
+  isFavorite: boolean; // track favorite state
 };
 
 export default function FavoritesPage() {
@@ -16,26 +17,30 @@ export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (status !== "authenticated") {
-      setLoading(false);
-      return;
-    }
+  const userId = session?.user?.id;
 
-    const userId = session?.user?.id;
-
-    if (!userId) {
-      console.warn("No userId in session");
-      setLoading(false);
-      return;
-    }
-
+  const fetchFavorites = async () => {
+    if (!userId) return;
     setLoading(true);
-    fetch(`/api/favorites/list?userId=${userId}`)
-      .then((res) => res.json())
-      .then((data) => setFavorites(data))
-      .catch((err) => console.error("Error fetching favorites:", err))
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch(`/api/favorites/list?userId=${userId}`);
+      const data = await res.json();
+      setFavorites(
+        data.map((meal: any) => ({ ...meal, isFavorite: true }))
+      );
+    } catch (err) {
+      console.error("Error fetching favorites:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      fetchFavorites();
+    } else {
+      setLoading(false);
+    }
   }, [session, status]);
 
   if (status === "loading") return <p>Checking authentication...</p>;
@@ -43,6 +48,29 @@ export default function FavoritesPage() {
 
   const goToRecipe = (id: number) => {
     router.push(`/recipeDetails/${id}`);
+  };
+
+  const toggleFavorite = async (mealId: number, isFav: boolean) => {
+    if (!userId) return;
+
+    try {
+      const res = await fetch("/api/favorites/toggle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, mealId, favorite: !isFav }),
+      });
+
+      if (!res.ok) throw new Error("Failed to toggle favorite");
+
+      // Update local state
+      setFavorites((prev) =>
+        prev.map((meal) =>
+          meal.id === mealId ? { ...meal, isFavorite: !isFav } : meal
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -56,18 +84,28 @@ export default function FavoritesPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {favorites.map((meal) => (
-            <div
-              key={meal.id}
-              onClick={() => goToRecipe(meal.id)}
-              className="rounded-lg shadow-md overflow-hidden bg-white cursor-pointer hover:scale-105 transition-transform"
-            >
+            <div key={meal.id} className="relative rounded-lg shadow-md overflow-hidden bg-white">
               <img
                 src={meal.thumb}
                 alt={meal.name}
-                className="w-full h-48 object-cover"
+                className="w-full h-48 object-cover cursor-pointer"
+                onClick={() => goToRecipe(meal.id)}
               />
+              <div className="absolute top-2 right-2">
+                <button
+                  onClick={() => toggleFavorite(meal.id, meal.isFavorite)}
+                  className="text-red-500 text-2xl focus:outline-none"
+                >
+                  {meal.isFavorite ? "❤️" : "🤍"}
+                </button>
+              </div>
               <div className="p-4">
-                <h2 className="text-lg text-black font-semibold">{meal.name}</h2>
+                <h2
+                  className="text-lg text-black font-semibold cursor-pointer"
+                  onClick={() => goToRecipe(meal.id)}
+                >
+                  {meal.name}
+                </h2>
               </div>
             </div>
           ))}
