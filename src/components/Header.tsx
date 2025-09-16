@@ -10,7 +10,7 @@ export default function Header() {
 	const pathname = usePathname();
 	const router = useRouter();
 	const [query, setQuery] = useState("");
-	const { data: session, status } = useSession(); // get user session
+	const { data: session, status } = useSession();
 
 	const navLinks = [
 		{ href: "/", label: "Home" },
@@ -18,6 +18,7 @@ export default function Header() {
 		{ href: "/categories", label: "Categories" },
 	];
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
 		if (query.trim()) {
@@ -50,20 +51,34 @@ export default function Header() {
 						</li>
 					))}
 
-					{/* Show Favorites only if logged in */}
+					{/* Show Favorites and My Recipes only if logged in */}
 					{status === "authenticated" && (
-						<li>
-							<Link
-								href="/favorites"
-								className={`transition-colors duration-200 ${
-									pathname === "/favorites"
-										? "text-indigo-400"
-										: "hover:text-indigo-300"
-								}`}
-							>
-								Favorites
-							</Link>
-						</li>
+						<>
+							<li>
+								<Link
+									href="/favorites"
+									className={`transition-colors duration-200 ${
+										pathname === "/favorites"
+											? "text-indigo-400"
+											: "hover:text-indigo-300"
+									}`}
+								>
+									Favorites
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/my-recipes"
+									className={`transition-colors duration-200 ${
+										pathname === "/my-recipes"
+											? "text-indigo-400"
+											: "hover:text-indigo-300"
+									}`}
+								>
+									My Recipes
+								</Link>
+							</li>
+						</>
 					)}
 
 					{/* Search bar */}

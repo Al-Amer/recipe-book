@@ -1,9 +1,9 @@
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { sql } from "@/lib/dbCon";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -12,18 +12,35 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = await sql`SELECT * FROM users WHERE email = ${credentials?.email}`;
+        const user = await sql`
+          SELECT * FROM users WHERE email = ${credentials?.email}
+        `;
         if (user.length === 0) return null;
 
         const valid = await bcrypt.compare(credentials!.password, user[0].password_hash);
         if (!valid) return null;
 
-        return { id: user[0].id, email: user[0].email };
+        return { id: user[0].id.toString(), email: user[0].email }; // must be string for NextAuth
       },
     }),
   ],
-  session: { strategy: "jwt" as const },
-  pages: { signIn: "/login" }, // custom login page
+  session: { strategy: "jwt" },
+  pages: { signIn: "/login" },
+  callbacks: {
+    async jwt({ token, user }) {
+      // When user logs in, persist id
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
