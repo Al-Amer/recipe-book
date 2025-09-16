@@ -1,35 +1,36 @@
+// src/app/api/favorites/list/route.ts
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import dbCon from "@/lib/dbCon";
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-
+export async function GET(req: Request) {
   const sql = dbCon();
 
   try {
-    const user = await sql`SELECT id FROM users WHERE email = ${session.user.email}`;
-    if (user.length === 0) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+
+    if (!userId) {
+      return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
 
-    const userId = user[0].id;
-
-    const favorites = await sql`
-      SELECT f.meal_id, m.name, m.thumb
-      FROM favorites f
-      JOIN meals m ON f.meal_id = m.id
-      WHERE f.user_id = ${userId}
-      ORDER BY f.created_at DESC
+    const favorites = await sql<{
+      id: number;
+      name: string;
+      thumb: string;
+    }[]>`
+      SELECT 
+        meals.id,
+        meals.name,
+        meals.thumb
+      FROM favorites
+      JOIN meals ON meals.id = favorites.meal_id
+      WHERE favorites.user_id = ${userId}
+      ORDER BY favorites.created_at DESC
     `;
 
     return NextResponse.json(favorites);
   } catch (err) {
-    console.error("List favorites error:", err);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    console.error("favorites/list error:", err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
