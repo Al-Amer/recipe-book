@@ -1,32 +1,69 @@
-import Image from 'next/image';
-import iconFlorian from '../../../Icon/icon_Florian.png';
-import iconEdu from '../../../Icon/icon_Edu.png';
-import icaonAmer from '../../../Icon/icon_amer.png';
+import Image from "next/image";
+import iconFlorian from "../../../Icon/icon_Florian.png";
+import iconEdu from "../../../Icon/icon_Edu.png";
+import icaonAmer from "../../../Icon/icon_amer.png";
 
 export default function About() {
-	const developers: {  id:number;
-						imge: string;
-						name:string; 
-						link:string;
-						profie: string;
-						aboutText : string; }[]= [
-  	{id:0,imge:iconFlorian,name:"Florian",link:"https://github.com/GruFRe",profie:"Software Developer",aboutText:"A Junior Software Engineer actively building foundational skills in Python, JavaScript, C#, and Full-Stack. My background as an IT Systems Electronics Technician and Office Management Assistant (with SAP Business One) has honed my problem-solving and user-centric approach. Beyond my career, 16 years of dedicated family care alongside work and school instilled exceptional responsibility and a solution-oriented drive. I'm eager to apply these diverse experiences and developing technical skills to impactful IT projects."},
-	{id:1,imge:iconEdu,name:"Edu",link:"Edugithub",profie:"Software Developer",aboutText:"With a strong foundation in the social sector as a care worker and office administrator, I bring empathy, organization, and a people-first mindset into the world of technology. Now transitioning into tech, I’m combining my experience in support and coordination with a passion for building meaningful digital solutions."},
-  	{id:2,imge:icaonAmer,name:"Amer",link:"https://github.com/Al-Amer",profie:"Software Developer",aboutText:"Software Engineer with very good knowledge of HTML5, JavaScript and SQL as well as successfully applied Responsive Designs, Clean Code: Clear code, without bugs."}
+	const developers: {
+		id: number;
+		imge: string;
+		name: string;
+		link: string;
+		profie: string;
+		aboutText: string;
+	}[] = [
+		{
+			id: 0,
+			imge: iconFlorian,
+			name: "Florian",
+			link: "https://github.com/GruFRe",
+			profie: "Software Developer",
+			aboutText:
+				"Placeholder text and picture for now because of my endless creativity",
+		},
+		{
+			id: 1,
+			imge: iconEdu,
+			name: "Edu",
+			link: "Edugithub",
+			profie: "Software Developer",
+			aboutText:
+				"With a strong foundation in the social sector as a care worker and office administrator, I bring empathy, organization, and a people-first mindset into the world of technology. Now transitioning into tech, I’m combining my experience in support and coordination with a passion for building meaningful digital solutions.",
+		},
+		{
+			id: 2,
+			imge: icaonAmer,
+			name: "Amer",
+			link: "https://github.com/Al-Amer",
+			profie: "Software Developer",
+			aboutText:
+				"Software Engineer with very good knowledge of HTML5, JavaScript and SQL as well as successfully applied Responsive Designs, Clean Code: Clear code, without bugs.",
+		},
 	];
-  	return (
+	return (
 		<div className="flex items-start justify-center border-2 border-solid border-indigo-200 rounded-xl bg-sky-200 m-8 p-8 dark:bg-sky-800 dark:text-white">
-			{developers.map((developer)=>{
+			{developers.map((developer) => {
 				return (
-				<div className="flex flex-col justify-center text-center border-2 border-solid border-indigo-500 rounded-xl m-4 p-4 w-100 bg-blue-200 rounded-10%" key={developer.id}>
-					<div className='flex justify-center'>
-						<Image src={developer.imge} alt={developer.name} className='rounded-full h-40 w-40 object-contain'  />
-					</div>
-					
-					<h3 className="font-serif text-xl mt-3">{developer.name}</h3>
-					<p className="font-mono mt-3">{developer.profie}</p>
-					<p className="font-san h-70 overflow-y-auto mt-3">{developer.aboutText}</p>
-					{/* <div className="flex justify-center mt-4">
+					<div
+						className="flex flex-col justify-center text-center border-2 border-solid border-indigo-500 rounded-xl m-4 p-4 w-100 bg-blue-200 rounded-10%"
+						key={developer.id}
+					>
+						<div className="flex justify-center">
+							<Image
+								src={developer.imge}
+								alt={developer.name}
+								className="rounded-full h-40 w-40 object-contain"
+							/>
+						</div>
+
+						<h3 className="font-serif text-xl mt-3">
+							{developer.name}
+						</h3>
+						<p className="font-mono mt-3">{developer.profie}</p>
+						<p className="font-san h-70 overflow-y-auto mt-3">
+							{developer.aboutText}
+						</p>
+						{/* <div className="flex justify-center mt-4">
 						
 						<a href="url" className='m-3 dark:border-2 dark:border-white dark:rounded-full dark:bg-white'>
 						<span className="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-[#333] ">
@@ -43,12 +80,11 @@ export default function About() {
 						</svg>
 						</span></a>
 					</div> */}
-				</div>
-				)
+					</div>
+				);
 			})}
 		</div>
 	);
-
 }
 
-// rounded-xl 
+// rounded-xl
