@@ -22,3 +22,6 @@ export async function GET(
     );
   }
 }
+
+
+      // await sql`SELECT id, category_id, name, thumb FROM meals WHERE id = ${params.id}`;
