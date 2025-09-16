@@ -5,7 +5,7 @@ import dbCon from "@/lib/dbCon";
 
 const sql = dbCon();
 
-// helper FN to get start and end of DB entrys and runtime
+// helper Vars to get start and end of DB entrys and runtime
 const minDbEntry = await sql`
     SELECT MIN(id) FROM meals;
 `;
@@ -28,14 +28,15 @@ export function getRandomMeals(amount: number) {
 	// loop an "amount" times
 	for (let i = 0; i < amount; i++) {
 		// store meal with random id in array
+
+		// TODO
+		// dapt type definition and hoist them into types file because its needed at atleast three points
+		// change Type to an Array with nested Objects
+		// array = [{id: 1}, {id:2}]
+
 		randomMeals.push(
 			getRandomNumberInRange(minDbEntry[0].min, maxDbEntry[0].max)
 		);
-		const randomMeal = getRandomNumberInRange(
-			minDbEntry[0].min,
-			maxDbEntry[0].max
-		);
-		console.log("From FN:", randomMeal);
 	}
 	return randomMeals;
 }
