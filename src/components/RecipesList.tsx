@@ -21,9 +21,19 @@ export function RecipesList({ userId }: RecipesListProps) {
     setRecipes(data);
   };
 
-  useEffect(() => {
-    fetchRecipes();
-  }, []);
+useEffect(() => {
+  if (!userId) return;
+
+  const fetchRecipes = async () => {
+    const res = await fetch(`/api/my-recipes?userId=${userId}`);
+    const data = await res.json();
+    setRecipes(data);
+  };
+
+  fetchRecipes();
+}, [userId]);
+
+
 
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure?")) return;

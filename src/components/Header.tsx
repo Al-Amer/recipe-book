@@ -18,6 +18,7 @@ export default function Header() {
 		{ href: "/categories", label: "Categories" },
 	];
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
 		if (query.trim()) {
