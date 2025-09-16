@@ -1,14 +1,7 @@
 import { RecipeOverview } from "./RecipeOverview";
+import { LayoutPropSchema } from "@/types/types";
 
-// Define type for Component
-type PropSchema = {
-	// name for different Texts to display depending on page
-	name: string;
-	// meals to display
-	meals: number[];
-};
-
-export const RecipeLayout = ({ name, meals }: PropSchema) => {
+export const RecipeLayout = ({ name, meals }: LayoutPropSchema) => {
 	return (
 		<section className="border-2 rounded-2xl p-4">
 			<h2 className="text-center">{name}</h2>
