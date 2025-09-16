@@ -8,6 +8,7 @@ const sql = dbCon();
 const randomMeals = getRandomMeals(10);
 
 export default function Home() {
+	console.log("From Landing Page:", randomMeals);
 	return (
 		// Return Layout with two Articles nested in sections
 		<main className="p-4">

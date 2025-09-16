@@ -31,6 +31,11 @@ export function getRandomMeals(amount: number) {
 		randomMeals.push(
 			getRandomNumberInRange(minDbEntry[0].min, maxDbEntry[0].max)
 		);
+		const randomMeal = getRandomNumberInRange(
+			minDbEntry[0].min,
+			maxDbEntry[0].max
+		);
+		console.log("From FN:", randomMeal);
 	}
 	return randomMeals;
 }
