@@ -4,7 +4,7 @@ import { getRandomMeals } from "@/lib/randomFromDB";
 
 const sql = dbCon();
 
-// get some random meals
+// get some random meals, change for another amount to display
 const randomMeals = getRandomMeals(10);
 
 export default function Home() {
