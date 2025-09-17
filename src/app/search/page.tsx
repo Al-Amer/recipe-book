@@ -1,3 +1,4 @@
+import { RecipeLayout } from "@/components/RecipeLayout";
 import Searchbar from "@/components/Searchbar";
 import dbCon from "@/lib/dbCon";
 
@@ -16,7 +17,12 @@ export default async function SearchResultsPage({ searchParams }: PageProps) {
     SELECT m.id FROM meals AS m
     WHERE m.name LIKE ${"%" + query + "%"}
     `;
-	console.log(results);
+	// console.log(results);
+	// extract ids from Object into simple array to reuse Component from Landing Page
+	const mealIds = results.map((result) => {
+		return result.id;
+	});
+	console.log(mealIds);
 	return (
 		<main>
 			<h1>Search results</h1>
@@ -29,16 +35,8 @@ export default async function SearchResultsPage({ searchParams }: PageProps) {
 				targetPath="/search"
 			/>
 
-			{/* Display results from DB Query */}
-			<div className="mt-6">
-				{/* {results.map((result) => (
-					<div key={result.id}>
-						<h3>{result.name}</h3>
-
-						<img src={result.thumb} alt={result.name} />
-					</div>
-				))} */}
-			</div>
+			{/* Display results from DB Query/extracted Array */}
+			<RecipeLayout name="forget what it was for XD" meals={mealIds} />
 		</main>
 	);
 }
