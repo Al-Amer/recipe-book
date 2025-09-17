@@ -1,6 +1,7 @@
 import dbCon from '@/lib/dbCon'
 import React from 'react'
-import Image,{ StaticImageData } from "next/image";
+import Image from "next/image";
+import FavoriteToggle from "./FavoriteToggle"
 
 type Ingredient = {
   name: string;
@@ -9,11 +10,12 @@ type Ingredient = {
 
 type RecipeProps = {
   id: number;
+  userId: string; // Pass the logged-in user’s id as a prop
 };
 
-export const RecipeDetails = async({id}:RecipeProps)=> {
-    const sql = dbCon();    
-    try {
+export const RecipeDetails = async ({ id, userId }: RecipeProps) => {
+  const sql = dbCon();    
+  try {
     const result = await sql`
       SELECT
         meals.id,
@@ -48,6 +50,7 @@ export const RecipeDetails = async({id}:RecipeProps)=> {
 
     const meal = result[0];
     const ingredients: Ingredient[] = meal.ingredients;
+
     return (
       <div className="m-5 p-5">
         <div className="flex m-5 p-5">
@@ -59,32 +62,29 @@ export const RecipeDetails = async({id}:RecipeProps)=> {
             className="h-auto w-150 max-w-full rounded-lg m-5"
           />
           <div className="m-5 pl-5">
-            <h3 className="font-bold text-xl">{meal.meal_name}</h3>
+            <div className="flex items-center gap-3">
+              <h3 className="font-bold text-xl">{meal.meal_name}</h3>
+
+              {/* Heart button goes here */}
+              <FavoriteToggle mealId={meal.id} userId={userId} />
+            </div>
+
             <p className="mt-3 italic">
               {meal.category} | {meal.area}
             </p>
             <h3 className="font-bold text-lg">Ingredients :</h3>
             <ul className="list-disc ml-6 mt-3">
-            {ingredients.map((ing, idx) => (
-              <li key={idx}>
-                {ing.name}: {ing.measure}
-              </li>
-            ))}
-          </ul>
-            {/* <p className="mt-3 whitespace-pre-line">{meal.instructions}</p> */}
+              {ingredients.map((ing, idx) => (
+                <li key={idx}>
+                  {ing.name}: {ing.measure}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
         <div className="m-5 p-5">
           <p className="mt-3 whitespace-pre-line">{meal.instructions}</p>
-          {/* <h3 className="font-bold text-lg">Ingredients :</h3>
-          <ul className="list-disc ml-6 mt-3">
-            {ingredients.map((ing, idx) => (
-              <li key={idx}>
-                {ing.name}: {ing.measure}
-              </li>
-            ))}
-          </ul> */}
         </div>
 
         {meal.youtube && (

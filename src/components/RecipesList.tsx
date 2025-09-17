@@ -63,7 +63,7 @@ export function RecipesList({ userId }: RecipesListProps) {
             </div>
             <button
               onClick={() => handleDelete(r.id)}
-              className="bg-red-600 text-white px-3 py-1 rounded"
+              className="bg-red-600 text-black px-3 py-1 rounded"
             >
               Delete
             </button>
