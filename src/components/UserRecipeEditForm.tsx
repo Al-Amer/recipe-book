@@ -67,7 +67,7 @@ export default function UserRecipeEditForm({ recipeId, initialData }: UserRecipe
         setThumb(data.thumb ?? "");
         setYoutube(data.youtube ?? "");
         setSource(data.source ?? "");
-        setIngredients(Array.isArray(data.ingredients) ? data.ingredients.map((ing: any) => ({
+        setIngredients(Array.isArray(data.ingredients) ? data.ingredients.map((ing: {name:string,measure:string }) => ({
           name: ing.name ?? "",
           measure: ing.measure ?? ""
         })) : []);
