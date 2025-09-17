@@ -21,7 +21,7 @@ export default function Home() {
 					nutrient-rich foods, including fruits, vegetables, whole
 					grains, lean proteins, and healthy fats, to provide energy,
 					support bodily functions, and prevent diseases like heart
-					disease, diabetes, and certain cancers. It's important to
+					disease, diabetes, and certain cancers. It&lsquo;s important to
 					limit salt, sugar, and unhealthy fats while drinking plenty
 					of water to maintain overall health, boost immunity, and
 					improve brain function.

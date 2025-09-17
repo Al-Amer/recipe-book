@@ -24,7 +24,7 @@ export function getRandomNumberInRange(min: number, max: number): number {
 // export an spezific mount of random meals
 export function getRandomMeals(amount: number) {
 	// define Array to store and return
-	let randomMeals: number[] = [];
+	const randomMeals: number[] = [];
 	// loop an "amount" times
 	for (let i = 0; i < amount; i++) {
 		// store meal with random id in array

@@ -28,7 +28,8 @@ type ApiMeal = {
 	strSource: string | null;
 	strYoutube: string | null;
 	// ingredients and measures come as strIngredient1..20 and strMeasure1..20
-	[k: string]: any;
+	// [k: string]: any;
+	[k: string]: string| unknown;
 };
 
 function sleep(ms: number) {
@@ -36,7 +37,8 @@ function sleep(ms: number) {
 }
 
 async function fetchJSON<T>(url: string, tries = 3): Promise<T> {
-	let lastErr: any;
+	// let lastErr: any;
+	let lastErr: string| unknown | Error;
 	for (let i = 0; i < tries; i++) {
 		try {
 			const r = await fetch(url);

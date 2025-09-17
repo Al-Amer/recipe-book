@@ -26,7 +26,8 @@ export default function FavoritesPage() {
       const res = await fetch(`/api/favorites/list?userId=${userId}`);
       const data = await res.json();
       setFavorites(
-        data.map((meal: any) => ({ ...meal, isFavorite: true }))
+        // data.map((meal: any) => ({ ...meal, isFavorite: true }))
+        data.map((meal: Record<string,unknown>) => ({ ...meal, isFavorite: true }))
       );
     } catch (err) {
       console.error("Error fetching favorites:", err);
