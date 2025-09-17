@@ -36,7 +36,7 @@ export default async function SearchResultsPage({ searchParams }: PageProps) {
 			/>
 
 			{/* Display results from DB Query/extracted Array */}
-			<RecipeLayout name="forget what it was for XD" meals={mealIds} />
+			<RecipeLayout name="Your search results:" meals={mealIds} />
 		</main>
 	);
 }
