@@ -13,11 +13,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
 
-    const favorites = await sql<{
-      id: number;
-      name: string;
-      thumb: string;
-    }[]>`
+    const favorites = (await sql`
       SELECT 
         meals.id,
         meals.name,
@@ -26,7 +22,11 @@ export async function GET(req: Request) {
       JOIN meals ON meals.id = favorites.meal_id
       WHERE favorites.user_id = ${userId}
       ORDER BY favorites.created_at DESC
-    `;
+    `) as {
+      id: number;
+      name: string;
+      thumb: string;
+    }[];
 
     return NextResponse.json(favorites);
   } catch (err) {

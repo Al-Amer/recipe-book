@@ -1,6 +1,6 @@
 // src/app/my-recipes/page.tsx
 import { getServerSession } from "next-auth";
-import { authOptions } from "../app/api/auth/[...nextauth]/route";
+import { authOptions } from "../lib/authOptions";
 import MyRecipesClient from "./MyRecipesClient";
 
 export default async function MyRecipesPage() {

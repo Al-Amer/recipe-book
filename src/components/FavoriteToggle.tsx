@@ -1,27 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 
-interface FavoriteToggleProps {
+export interface FavoriteToggleProps {
   mealId: number;
+  userId: string; // required now
 }
 
-export default function FavoriteToggle({ mealId }: FavoriteToggleProps) {
-  const { data: session } = useSession();
+export default function FavoriteToggle({ mealId, userId }: FavoriteToggleProps) {
   const [isFavorite, setIsFavorite] = useState(false);
-
-  const userId = session?.user?.id;
 
   useEffect(() => {
     if (!userId) return;
-    fetch(`/api/favorites/list?userId=${userId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.some((fav: { id: number }) => fav.id === mealId)) {
-          setIsFavorite(true);
-        }
-      });
+
+    const fetchFavorites = async () => {
+      try {
+        const res = await fetch(`/api/favorites/list?userId=${userId}`);
+        const data: { id: number }[] = await res.json();
+        setIsFavorite(data.some((fav) => fav.id === mealId));
+      } catch (err) {
+        console.error("Failed to fetch favorites:", err);
+      }
+    };
+
+    fetchFavorites();
   }, [userId, mealId]);
 
   const toggleFavorite = async () => {
@@ -30,14 +32,17 @@ export default function FavoriteToggle({ mealId }: FavoriteToggleProps) {
       return;
     }
 
-    const res = await fetch("/api/favorites/toggle", {
-      method: "POST",
-      body: JSON.stringify({ userId, mealId }),
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      setIsFavorite(data.favorited);
+    try {
+      const res = await fetch("/api/favorites/toggle", {
+        method: "POST",
+        body: JSON.stringify({ userId, mealId }),
+      });
+      if (res.ok) {
+        const data: { favorited: boolean } = await res.json();
+        setIsFavorite(data.favorited);
+      }
+    } catch (err) {
+      console.error("Failed to toggle favorite:", err);
     }
   };
 

@@ -1,7 +1,8 @@
+// src/app/my-recipes/page.tsx
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../lib/authOptions"
-import {RecipeForm} from "../../components/RecipeForm";
-import {RecipesList} from "../../components/RecipesList";
+import { authOptions } from "@/lib/authOptions"; // <- correct import path
+import { RecipeForm } from "@/components/RecipeForm";
+import { RecipesList } from "@/components/RecipesList";
 
 export default async function MyRecipesPage() {
   const session = await getServerSession(authOptions);

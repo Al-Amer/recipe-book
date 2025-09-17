@@ -1,11 +1,10 @@
+// src/app/recipeDetails/[id]/page.tsx
 import { RecipeDetails } from "@/components/RecipeDetails";
 
-interface RecipePageProps {
-  params: { id: string };
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function RecipePage(props: any) {
+  const recipeId = Number(props.params.id);
+  const userId = "some-user-id";
 
-// default export a server component
-export default async function Page({ params }: RecipePageProps) {
-  const id = Number(params.id); // convert route param to number
-  return <RecipeDetails id={id} />;
+  return <RecipeDetails id={recipeId} userId={userId} />;
 }

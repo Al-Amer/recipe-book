@@ -1,14 +1,15 @@
-import { UserRecipeOverview } from "@/components/UserRecipeOverview";
-import Link from "next/link";
+'use client';
 
-interface PageProps {
-  params: { id: string };
-}
+import React from 'react';
+import { useParams } from 'next/navigation';
+import { UserRecipeOverview } from '@/components/UserRecipeOverview';
+import Link from 'next/link';
 
-export default async function RecipePage(props: PageProps) {
-  // Await props to satisfy Next.js App Router runtime
-  const { params } = await props;
-  const recipeId = Number(params.id);
+export default function MyRecipeEditPage() {
+  const params = useParams();
+  const recipeId = Number(params?.id);
+
+  if (!recipeId) return <p>Invalid recipe ID</p>;
 
   return (
     <div className="max-w-4xl mx-auto py-10 space-y-6">

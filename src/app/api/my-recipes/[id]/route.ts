@@ -1,16 +1,22 @@
 import { NextResponse } from "next/server";
 import dbCon from "@/lib/dbCon";
 
+// Helper to extract recipe ID from request URL
+function getRecipeId(req: Request): number {
+  const url = new URL(req.url);
+  const segments = url.pathname.split("/").filter(Boolean);
+  const idStr = segments[segments.length - 1]; // last segment is the ID
+  const id = Number(idStr);
+  if (isNaN(id)) throw new Error("Invalid recipe ID in URL");
+  return id;
+}
+
 // GET recipe by ID with ingredients
-export async function GET(
-  _req: Request,
-  context: { params: { id: string } } // <-- use context instead of destructuring
-) {
+export async function GET(req: Request) {
+  const recipeId = getRecipeId(req);
   const sql = dbCon();
-  const recipeId = Number(context.params.id); // <-- use context.params.id
 
   try {
-    // Fetch recipe
     const [recipe] = await sql`
       SELECT *
       FROM user_recipes
@@ -21,36 +27,27 @@ export async function GET(
       return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
     }
 
-    // Fetch associated ingredients
     const ingredients = await sql`
       SELECT name, measure
       FROM recipe_ingredients
       WHERE recipe_id = ${recipeId}
     `;
 
-    // Return recipe + ingredients
     return NextResponse.json({ ...recipe, ingredients });
   } catch (err) {
     console.error("Error fetching recipe:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch recipe" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch recipe" }, { status: 500 });
   }
 }
 
 // PATCH / update recipe by ID
-export async function PATCH(
-  req: Request,
-  context: { params: { id: string } }
-) {
+export async function PATCH(req: Request) {
+  const recipeId = getRecipeId(req);
   const sql = dbCon();
-  const recipeId = Number(context.params.id);
   const { title, instructions, categoryId, areaId, thumb, youtube, source, ingredients } =
     await req.json();
 
   try {
-    // Update recipe fields
     await sql`
       UPDATE user_recipes
       SET title = ${title},
@@ -63,10 +60,8 @@ export async function PATCH(
       WHERE id = ${recipeId}
     `;
 
-    // Delete existing ingredients
     await sql`DELETE FROM recipe_ingredients WHERE recipe_id = ${recipeId}`;
 
-    // Insert new ingredients
     if (Array.isArray(ingredients)) {
       for (const ing of ingredients) {
         await sql`
@@ -79,33 +74,22 @@ export async function PATCH(
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Error updating recipe:", err);
-    return NextResponse.json(
-      { error: "Failed to update recipe" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update recipe" }, { status: 500 });
   }
 }
 
 // DELETE recipe by ID
-export async function DELETE(
-  _req: Request,
-  context: { params: { id: string } }
-) {
+export async function DELETE(req: Request) {
+  const recipeId = getRecipeId(req);
   const sql = dbCon();
-  const recipeId = Number(context.params.id);
 
   try {
-    // Delete ingredients first
     await sql`DELETE FROM recipe_ingredients WHERE recipe_id = ${recipeId}`;
-    // Delete the recipe itself
     await sql`DELETE FROM user_recipes WHERE id = ${recipeId}`;
 
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Error deleting recipe:", err);
-    return NextResponse.json(
-      { error: "Failed to delete recipe" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete recipe" }, { status: 500 });
   }
 }
