@@ -25,7 +25,8 @@ export default async function MealDetail({
 			)}
 			<h2>Ingredients</h2>
 			<ul>
-				{meal.ingredients.map((it: any, i: number) => (
+				{/* {meal.ingredients.map((it: any, i: number) => ( */}
+				{meal.ingredients.map((it: {name:string,measure:string}, i: number) => (
 					<li key={i}>
 						{it.name}
 						{it.measure ? ` — ${it.measure}` : ""}
