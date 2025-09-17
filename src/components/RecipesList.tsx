@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Recipe {
   id: number;
@@ -14,20 +15,16 @@ interface RecipesListProps {
 
 export function RecipesList({ userId }: RecipesListProps) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const router = useRouter();
 
   const fetchRecipes = async () => {
     try {
       const res = await fetch(`/api/my-recipes?userId=${userId}`);
       const data = await res.json();
 
-      // Ensure we get an array of recipes
-      if (Array.isArray(data)) {
-        setRecipes(data);
-      } else if ("recipes" in data && Array.isArray(data.recipes)) {
-        setRecipes(data.recipes);
-      } else {
-        setRecipes([]);
-      }
+      if (Array.isArray(data)) setRecipes(data);
+      else if ("recipes" in data && Array.isArray(data.recipes)) setRecipes(data.recipes);
+      else setRecipes([]);
     } catch (err) {
       console.error("Failed to fetch recipes:", err);
       setRecipes([]);
@@ -50,10 +47,18 @@ export function RecipesList({ userId }: RecipesListProps) {
     }
   };
 
+  const handleEdit = (id: number) => {
+    router.push(`/my-recipes/${id}/edit`);
+  };
+
+  const handleView = (id: number) => {
+  router.push(`/my-recipes/${id}`);
+};
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Your Recipes</h2>
-      {recipes.length === 0 ? <p>No recipes yet.</p> : null}
+      {recipes.length === 0 && <p>No recipes yet.</p>}
       <ul className="space-y-4">
         {recipes.map((r) => (
           <li key={r.id} className="p-4 border rounded flex justify-between items-start">
@@ -61,12 +66,26 @@ export function RecipesList({ userId }: RecipesListProps) {
               <h3 className="font-semibold">{r.title}</h3>
               <p className="text-sm mt-1">{r.instructions}</p>
             </div>
-            <button
-              onClick={() => handleDelete(r.id)}
-              className="bg-red-600 text-black px-3 py-1 rounded"
-            >
-              Delete
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={() => handleView(r.id)}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
+              >
+                View
+              </button>
+              <button
+                onClick={() => handleEdit(r.id)}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDelete(r.id)}
+                className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
