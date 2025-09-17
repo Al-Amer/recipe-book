@@ -19,7 +19,7 @@ export function RecipesList({ userId }: RecipesListProps) {
 
   const fetchRecipes = async () => {
     try {
-      const res = await fetch(`/api/my-recipes?userId=${userId}`);
+      const res = await fetch(`/api/my-recipes?userId=${userId}`, {cache: "no-store"});
       const data = await res.json();
 
       if (Array.isArray(data)) setRecipes(data);
@@ -37,13 +37,21 @@ export function RecipesList({ userId }: RecipesListProps) {
   }, [userId]);
 
   const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure?")) return;
+    if (!confirm("Are you sure you want to delete this recipe?")) return;
 
     try {
-      const res = await fetch(`/api/my-recipes?id=${id}`, { method: "DELETE" });
-      if (res.ok) fetchRecipes();
+      // Use dynamic route URL for DELETE
+      const res = await fetch(`/api/my-recipes/${id}`, { method: "DELETE", cache: "no-store" });
+
+      if (res.ok) {
+        fetchRecipes(); // Refresh the list after deletion
+      } else {
+        const data = await res.json();
+        alert(`Error deleting recipe: ${data.error}`);
+      }
     } catch (err) {
       console.error("Failed to delete recipe:", err);
+      alert("Error deleting recipe");
     }
   };
 
@@ -52,8 +60,8 @@ export function RecipesList({ userId }: RecipesListProps) {
   };
 
   const handleView = (id: number) => {
-  router.push(`/my-recipes/${id}`);
-};
+    router.push(`/my-recipes/${id}`);
+  };
 
   return (
     <div>

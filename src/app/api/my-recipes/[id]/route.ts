@@ -42,15 +42,15 @@ export async function GET(
 // PATCH / update recipe by ID
 export async function PATCH(
   req: Request,
-  context: { params: { id: string } } // <-- use context here too
+  context: { params: { id: string } }
 ) {
   const sql = dbCon();
-  const recipeId = Number(context.params.id); // <-- context.params.id
+  const recipeId = Number(context.params.id);
   const { title, instructions, categoryId, areaId, thumb, youtube, source, ingredients } =
     await req.json();
 
   try {
-    // Update recipe fields, including category_id and area_id
+    // Update recipe fields
     await sql`
       UPDATE user_recipes
       SET title = ${title},
@@ -81,6 +81,30 @@ export async function PATCH(
     console.error("Error updating recipe:", err);
     return NextResponse.json(
       { error: "Failed to update recipe" },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE recipe by ID
+export async function DELETE(
+  _req: Request,
+  context: { params: { id: string } }
+) {
+  const sql = dbCon();
+  const recipeId = Number(context.params.id);
+
+  try {
+    // Delete ingredients first
+    await sql`DELETE FROM recipe_ingredients WHERE recipe_id = ${recipeId}`;
+    // Delete the recipe itself
+    await sql`DELETE FROM user_recipes WHERE id = ${recipeId}`;
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Error deleting recipe:", err);
+    return NextResponse.json(
+      { error: "Failed to delete recipe" },
       { status: 500 }
     );
   }

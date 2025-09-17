@@ -2,30 +2,42 @@
 
 import { useState, useEffect, FormEvent } from "react";
 
-interface UserRecipeEditFormProps {
-  recipeId: number;
-}
-
+interface IngredientForm { name: string; measure: string; }
 interface Category { id: number; name: string; }
 interface Area { id: number; name: string; }
-interface IngredientForm { name: string; measure: string; }
 
-export default function UserRecipeEditForm({ recipeId }: UserRecipeEditFormProps) {
-  // Form states
-  const [title, setTitle] = useState("");
-  const [instructions, setInstructions] = useState("");
-  const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [areaId, setAreaId] = useState<number | null>(null);
-  const [thumb, setThumb] = useState("");
-  const [youtube, setYoutube] = useState("");
-  const [source, setSource] = useState("");
-  const [ingredients, setIngredients] = useState<IngredientForm[]>([]);
+interface RecipeData {
+  title: string;
+  instructions: string;
+  category_id: number | null;
+  area_id: number | null;
+  thumb: string;
+  youtube: string;
+  source: string;
+  ingredients: IngredientForm[];
+}
+
+interface UserRecipeEditFormProps {
+  recipeId: number;
+  initialData?: RecipeData; // new prop for SSR prefill
+}
+
+export default function UserRecipeEditForm({ recipeId, initialData }: UserRecipeEditFormProps) {
+  // Form states, prefilled from initialData if available
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [instructions, setInstructions] = useState(initialData?.instructions || "");
+  const [categoryId, setCategoryId] = useState<number | null>(initialData?.category_id ?? null);
+  const [areaId, setAreaId] = useState<number | null>(initialData?.area_id ?? null);
+  const [thumb, setThumb] = useState(initialData?.thumb || "");
+  const [youtube, setYoutube] = useState(initialData?.youtube || "");
+  const [source, setSource] = useState(initialData?.source || "");
+  const [ingredients, setIngredients] = useState<IngredientForm[]>(initialData?.ingredients || []);
 
   // Lookup tables
   const [categories, setCategories] = useState<Category[]>([]);
   const [areas, setAreas] = useState<Area[]>([]);
 
-  // Fetch categories, areas, and recipe data
+  // Fetch categories and areas only
   useEffect(() => {
     const fetchLookups = async () => {
       const [cats, ars] = await Promise.all([
@@ -35,6 +47,12 @@ export default function UserRecipeEditForm({ recipeId }: UserRecipeEditFormProps
       setCategories(cats);
       setAreas(ars);
     };
+    fetchLookups();
+  }, []);
+
+  // Fetch recipe client-side **only if no initialData**
+  useEffect(() => {
+    if (initialData) return;
 
     const fetchRecipe = async () => {
       try {
@@ -49,8 +67,6 @@ export default function UserRecipeEditForm({ recipeId }: UserRecipeEditFormProps
         setThumb(data.thumb ?? "");
         setYoutube(data.youtube ?? "");
         setSource(data.source ?? "");
-
-        // Ensure ingredients array exists and map properly
         setIngredients(Array.isArray(data.ingredients) ? data.ingredients.map((ing: any) => ({
           name: ing.name ?? "",
           measure: ing.measure ?? ""
@@ -60,19 +76,14 @@ export default function UserRecipeEditForm({ recipeId }: UserRecipeEditFormProps
       }
     };
 
-    fetchLookups();
     fetchRecipe();
-  }, [recipeId]);
+  }, [recipeId, initialData]);
 
   // Ingredient handlers
   const addIngredient = () => setIngredients(prev => [...prev, { name: "", measure: "" }]);
   const removeIngredient = (i: number) => setIngredients(prev => prev.filter((_, idx) => idx !== i));
-  const updateIngredientName = (i: number, name: string) => setIngredients(prev => {
-    const copy = [...prev]; copy[i].name = name; return copy;
-  });
-  const updateIngredientMeasure = (i: number, measure: string) => setIngredients(prev => {
-    const copy = [...prev]; copy[i].measure = measure; return copy;
-  });
+  const updateIngredientName = (i: number, name: string) => setIngredients(prev => { const copy = [...prev]; copy[i].name = name; return copy; });
+  const updateIngredientMeasure = (i: number, measure: string) => setIngredients(prev => { const copy = [...prev]; copy[i].measure = measure; return copy; });
 
   // Submit updated recipe
   const handleSubmit = async (e: FormEvent) => {
